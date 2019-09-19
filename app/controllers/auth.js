@@ -25,16 +25,29 @@ const generateToken = user => {
     Math.floor(Date.now() / 1000) + 60 * process.env.JWT_EXPIRATION_IN_MINUTES
 
   // returns signed and encrypted token
-  return auth.encrypt(
-    jwt.sign(
-      {
-        data: {
-          _id: user
-        },
-        exp: expiration
+  // return auth.encrypt(
+  //   jwt.sign(
+  //     {
+  //       data: {
+  //         _id: user
+  //       },
+  //       exp: expiration
+  //     },
+  //     process.env.JWT_SECRET
+  //   )
+  // )
+
+  return jwt.sign(
+    {
+      data: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role
       },
-      process.env.JWT_SECRET
-    )
+      exp: expiration
+    },
+    process.env.JWT_SECRET
   )
 }
 
@@ -80,7 +93,7 @@ const saveUserAccessAndReturnToken = async (req, user) => {
       const userInfo = setUserInfo(user)
       // Returns data with access token
       resolve({
-        token: generateToken(user._id),
+        token: generateToken(userInfo),
         user: userInfo
       })
     })

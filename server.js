@@ -71,4 +71,4 @@ app.listen(app.get('port'))
 // Init MongoDB
 initMongo()
 
-module.exports = app // for testing
+module.exports = app
