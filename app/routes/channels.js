@@ -10,10 +10,6 @@ const requireAuth = passport.authenticate('jwt', {
 const trimRequest = require('trim-request')
 
 /*
- * Cities routes
- */
-
-/*
  * Get all items route
  */
 router.get('/all', controller.getAllItems)

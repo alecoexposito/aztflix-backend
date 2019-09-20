@@ -75,5 +75,5 @@ function getMaxNumber(chapters) {
 }
 
 exports.updateChapter = async (req, res) => {
-  console.llog('updating chapter')
+  console.log('updating chapter')
 }
