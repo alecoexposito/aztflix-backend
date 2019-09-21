@@ -2,7 +2,7 @@ const model = require('../models/ad')
 const utils = require('../middleware/utils')
 const db = require('../middleware/db')
 const multer = require('multer')
-const path = require('path')
+const pathLib = require('path')
 const mongoose = require('mongoose')
 
 exports.getAllAds = async (req, res) => {
@@ -58,7 +58,7 @@ exports.updateAd = async(req, res) => {
 const storage = multer.diskStorage({
   destination: 'public/uploads/ads',
   filename(req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname))
+    cb(null, Date.now() + pathLib.extname(file.originalname))
   }
 })
 
@@ -76,7 +76,7 @@ exports.upload = async (req, res) => {
       }
 
       path = req.file.filename
-      const name = 'nuevo anuncio';
+      const name = pathLib.basename(req.file.originalname, '.mp4');
       var newAd = {
         _id: mongoose.Types.ObjectId(),
         name: name,

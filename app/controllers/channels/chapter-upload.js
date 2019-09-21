@@ -2,13 +2,13 @@ const { matchedData } = require('express-validator')
 const model = require('../../models/channel')
 const utils = require('../../middleware/utils')
 const db = require('../../middleware/db')
-const path = require('path')
+const pathLib = require('path')
 const multer = require('multer')
 
 const storage = multer.diskStorage({
   destination: 'public/uploads/videos',
   filename(req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname))
+    cb(null, Date.now() + pathLib.extname(file.originalname))
   }
 })
 
@@ -36,7 +36,6 @@ exports.upload = async (req, res) => {
       // No error occured.
 
       path = req.file.path
-      console.log(req.body)
       const idChannel = req.body.idChannel
       const idShow = req.body.idShow
 
@@ -48,7 +47,7 @@ exports.upload = async (req, res) => {
           const maxNumber = getMaxNumber(q.chapters)
           const chapter = {
             number: maxNumber + 1,
-            name: '',
+            name: pathLib.basename(req.file.originalname, '.mp4'),
             title: '',
             path: req.file.filename
           }

@@ -205,6 +205,7 @@ exports.updateChapter = async (req, res) => {
       } else {
         const data = req.body.data
         channel.shows.id(idShow).chapters.id(data._id).number = data.number
+        channel.shows.id(idShow).chapters.id(data._id).name = data.name
         channel.shows.id(idShow).chapters.id(data._id).title = data.title
         channel.save()
         res
