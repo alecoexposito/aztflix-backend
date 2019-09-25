@@ -4,6 +4,7 @@ const db = require('../middleware/db')
 const multer = require('multer')
 const path = require('path')
 const mongoose = require('mongoose')
+const fs = require('fs')
 
 const getAllItemsFromDB = async () => {
   return new Promise((resolve, reject) => {
@@ -228,12 +229,28 @@ exports.deleteChapter = async (req, res) => {
       if (error) {
         throw error
       } else {
-        channel.shows
-          .id(idShow)
-          .chapters.id(idChapter)
-          .remove()
+        var chapter = channel.shows.id(idShow).chapters.id(idChapter)
+        channel.shows.id(idShow).chapters.id(idChapter).remove()
         channel.save()
+        fs.unlink('public/uploads/videos/' + chapter.path, function(error) {
+          if(error)
+            console.log('error deleting file: ', chapter.path, error);
+        });
         res.status(200).send({ success: true })
+      }
+    })
+  } catch (error) {
+    utils.handleError(res, error)
+  }
+}
+
+exports.getAllIds = async (req, res) => {
+  try {
+    model.find({}, '_id name', (error, ids) => {
+      if (error) {
+        throw error
+      } else {
+        res.status(200).send({ info: ids })
       }
     })
   } catch (error) {

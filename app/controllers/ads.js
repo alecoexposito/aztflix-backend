@@ -4,6 +4,7 @@ const db = require('../middleware/db')
 const multer = require('multer')
 const pathLib = require('path')
 const mongoose = require('mongoose')
+const fs = require('fs')
 
 exports.getAllAds = async (req, res) => {
   try {
@@ -100,6 +101,10 @@ exports.deleteAd = async(req, res) => {
       if (error) {
         throw error
       } else {
+        fs.unlink('public/uploads/ads/' + ad.path, function(error) {
+          if(error)
+            console.log('error deleting the file: ', ad.path, error);
+        });
         res.status(200).send({ success: true })
       }
     })

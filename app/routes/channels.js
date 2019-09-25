@@ -13,6 +13,7 @@ const trimRequest = require('trim-request')
  * Get all items route
  */
 router.get('/all', controller.getAllItems)
+router.get('/ids', controller.getAllIds)
 
 router.post('/:id/shows', controller.addShow)
 router.get('/:id/shows/:id_show', controller.getShowByChannelAndId)
