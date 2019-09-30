@@ -148,15 +148,27 @@ updateShowItem = function(channelId, model2, res) {
 exports.getChannel = async (req, res) => {
   try {
     // req = matchedData(req)
-    const id = await utils.isIDGood(req.params.id)
-    console.log('id: ', id)
-    model.findById(id, (error, channel) => {
-      if (error) {
-        throw error
-      } else {
-        res.status(200).send({ data: channel })
-      }
-    })
+    console.log('id: ', req.params.id)
+    if(req.params.id !== '0') {
+      console.log('no debe pasar por aquí')
+      const id = await utils.isIDGood(req.params.id)
+      model.findById(id, (error, channel) => {
+        if (error) {
+          throw error
+        } else {
+          res.status(200).send({ data: channel })
+        }
+      })
+    } else {
+      console.log('por aki si')
+      model.findOne((error, channel) => {
+        if (error) {
+          throw error
+        } else {
+          res.status(200).send({ data: channel })
+        }
+      });
+    }
   } catch (error) {
     utils.handleError(res, error)
   }
